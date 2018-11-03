@@ -1,8 +1,20 @@
 package com.xmq291.xmq291fullstackappangularspringboot.rest;
 
+import com.xmq291.xmq291fullstackappangularspringboot.entity.ReservationEntity;
+import com.xmq291.xmq291fullstackappangularspringboot.entity.RoomEntity;
 import com.xmq291.xmq291fullstackappangularspringboot.model.request.ReservationRequest;
+import com.xmq291.xmq291fullstackappangularspringboot.model.response.ReservableRoomResponse;
 import com.xmq291.xmq291fullstackappangularspringboot.model.response.ReservationResponse;
+import com.xmq291.xmq291fullstackappangularspringboot.repository.PageableRoomRepository;
+import com.xmq291.xmq291fullstackappangularspringboot.repository.ReservationRepository;
+import com.xmq291.xmq291fullstackappangularspringboot.repository.RoomRepository;
 
+import convertor.RoomEntityToReservableRoomResponseConverter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.ConversionService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,16 +33,40 @@ import java.time.LocalDate;
 @RequestMapping(ResourceConstants.ROOM_RESERVATION_V1)
 public class ReservationResource {
 
-    @RequestMapping(path = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<ReservationResponse> getAvailableRooms(
-            @RequestParam(name = "checkin")
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate checkin,
-            @RequestParam(name = "checkout")
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-            LocalDate checkout) {
+        @Autowired
+        PageableRoomRepository pageableRoomRepository;
 
-        return new ResponseEntity<>(new ReservationResponse(), HttpStatus.OK);
+        @Autowired
+        RoomRepository roomRepository;
+
+        @Autowired
+        ReservationRepository reservationRepository;
+
+        @Autowired
+        ConversionService conversionService;
+
+    @RequestMapping(path ="", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public Page<ReservableRoomResponse> getAvailableRooms (
+            @RequestParam(value = "checkin")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                    LocalDate checkin,
+            @RequestParam(value = "checkout")
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+                    LocalDate checkout, Pageable pageable) {
+
+        Page<RoomEntity> roomEntityList = pageableRoomRepository.findAll(pageable);
+
+        return roomEntityList.map(new RoomEntityToReservableRoomResponseConverter());
+    }
+
+    @RequestMapping(path = "/{roomId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<RoomEntity> getRoomById(
+            @PathVariable
+                    Long roomId) {
+
+        RoomEntity roomEntity = roomRepository.findById(roomId);
+
+        return new ResponseEntity<>(roomEntity, HttpStatus.OK);
     }
 
     @RequestMapping(path = "", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
@@ -39,16 +75,28 @@ public class ReservationResource {
             @RequestBody
             ReservationRequest reservationRequest) {
 
-        return new ResponseEntity<>(new ReservationResponse(), HttpStatus.CREATED);
+            ReservationEntity reservationEntity = conversionService.convert(reservationRequest, ReservationEntity.class);
+            reservationRepository.save(reservationEntity);
+
+            RoomEntity roomEntity = roomRepository.findById(reservationRequest.getRoomId());
+            roomEntity.addReservationEntity(reservationEntity);
+            roomRepository.save(roomEntity);
+            reservationEntity.setRoomEntity(roomEntity);
+
+            ReservationResponse reservationResponse =
+                    conversionService.convert(reservationEntity, ReservationResponse.class);
+
+
+            return new ResponseEntity<>(reservationResponse, HttpStatus.CREATED);
     }
 
     @RequestMapping(path = "", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<ReservationResponse> updateReservation(
+    public ResponseEntity<ReservableRoomResponse> updateReservation(
             @RequestBody
             ReservationRequest reservationRequest) {
 
-        return new ResponseEntity<>(new ReservationResponse(), HttpStatus.OK);
+        return new ResponseEntity<>(new ReservableRoomResponse(), HttpStatus.OK);
     }
 
     @RequestMapping(path = "/{reservationId}", method = RequestMethod.DELETE)

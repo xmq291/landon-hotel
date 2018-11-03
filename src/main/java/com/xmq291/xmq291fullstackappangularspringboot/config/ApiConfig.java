@@ -9,17 +9,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @Configuration
 public class ApiConfig {
-	
-	@Bean
-	public ObjectMapper objectMapper() {
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.registerModule(new JavaTimeModule());
-		
-		return new ObjectMapper();
-	}
-	
-	@Bean
-	public ObjectWriter objectWriter(ObjectMapper objectMapper) {
-		return objectMapper.writerWithDefaultPrettyPrinter();
-	}
+
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+
+        return new ObjectMapper();
+    }
+
+    @Bean
+    public ObjectWriter objectWriter(ObjectMapper objectMapper) {
+        return objectMapper.writerWithDefaultPrettyPrinter();
+    }
 }
