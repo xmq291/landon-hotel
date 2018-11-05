@@ -6,12 +6,12 @@ import org.springframework.context.support.ConversionServiceFactoryBean;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.core.convert.converter.Converter;
 
-import convertor.ReservationEntityToReservationResponseConverter;
-import convertor.ReservationRequestToReservationEntityConverter;
-import convertor.RoomEntityToReservableRoomResponseConverter;
-
 import java.util.HashSet;
 import java.util.Set;
+
+import com.xmq291.xmq291fullstackappangularspringboot.convertor.ReservationEntityToReservationResponseConverter;
+import com.xmq291.xmq291fullstackappangularspringboot.convertor.ReservationRequestToReservationEntityConverter;
+import com.xmq291.xmq291fullstackappangularspringboot.convertor.RoomEntityToReservableRoomResponseConverter;
 
 @Configuration public class ConversionConfig {
 

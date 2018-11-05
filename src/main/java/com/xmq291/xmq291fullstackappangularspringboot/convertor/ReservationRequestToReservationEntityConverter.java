@@ -1,4 +1,4 @@
-package convertor;
+package com.xmq291.xmq291fullstackappangularspringboot.convertor;
 
 import org.springframework.core.convert.converter.Converter;
 
