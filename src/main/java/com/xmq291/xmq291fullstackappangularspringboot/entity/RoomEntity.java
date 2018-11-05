@@ -31,11 +31,9 @@ public class RoomEntity {
 	private List<ReservationEntity> reservationEntityList;
 
 	public RoomEntity() {
-		super();
 	}
 
 	public RoomEntity(Integer roomNumber, String price) {
-		super();
 		this.roomNumber = roomNumber;
 		this.price = price;
 	}
