@@ -8,9 +8,9 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan
-public class Xmq291FullStackAppAngularSpringBootApplication {
+public class LinkedInLearningFullStackAppAngularSpringBootApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(Xmq291FullStackAppAngularSpringBootApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LinkedInLearningFullStackAppAngularSpringBootApplication.class, args);
+    }
 }

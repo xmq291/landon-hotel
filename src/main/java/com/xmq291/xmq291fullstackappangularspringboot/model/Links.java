@@ -1,17 +1,14 @@
 package com.xmq291.xmq291fullstackappangularspringboot.model;
 
 public class Links {
-	
-	private Self self;
 
-	public Self getSelf() {
-		return self;
-	}
+    private Self self;
 
-	public void setSelf(Self self) {
-		this.self = self;
-	}
-	
-	
+    public Self getSelf() {
+        return self;
+    }
 
+    public void setSelf(Self self) {
+        this.self = self;
+    }
 }

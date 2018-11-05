@@ -3,7 +3,7 @@ package com.xmq291.xmq291fullstackappangularspringboot.model.response;
 import com.xmq291.xmq291fullstackappangularspringboot.model.Links;
 
 public class ReservableRoomResponse {
-	
+
 	private Long id;
 	private Integer roomNumber;
 	private Integer price;
@@ -45,5 +45,4 @@ public class ReservableRoomResponse {
 	}
 	
 	
-
 }
