@@ -2,11 +2,11 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-Xmq291FullStackAppAngularSpringBootApplication<xmq291-full-stack-app-angular-spring-boot>",
+            "name": "Spring Boot-LinkedInLearningFullStackAppAngularSpringBootApplication<xmq291-full-stack-app-angular-spring-boot>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
-            "mainClass": "com.xmq291.xmq291fullstackappangularspringboot.Xmq291FullStackAppAngularSpringBootApplication",
+            "mainClass": "com.xmq291.xmq291fullstackangularspringboot.LinkedInLearningFullStackAppAngularSpringBootApplication",
             "projectName": "xmq291-full-stack-app-angular-spring-boot",
             "args": ""
         }
